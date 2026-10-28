@@ -9,17 +9,21 @@ Based on https://github.com/Tecnativa/docker-socket-proxy
 
 ## Changes compared to `Tecnativa/docker-socket-proxy`
 
-Noticable changes:
+Notable changes:
 
 - Simplified implementation to only two files
-- Upgraded HAProxy to 3.2 LTS
+- Upgraded HAProxy to 3.4 LTS
 - Fixed warnings
 - Proxy config changes:
 	- Allow `POST`s to start/stop/restart depending on corresponding setting, without the need to enable the `POST` setting
-	- Removed unlimited timeout on events paths
+	- Set a 24h idle timeout for events (previously unlimited) and follow-log streams
 		- Unlimited timeout may be needed in some cases/tools: https://github.com/Tecnativa/docker-socket-proxy/pull/98
+	- Set a 24h tunnel idle timeout
 	- Removed `option redispatch` (didn't do anything as it's only a single backend server)
 	- Set `retries 0` instead of 3
+	- Bound API route matching
+		- So that for example `AUTH` allows `/auth`, and no other paths starting with `/auth`
+	- Match API route names case-sensitively
 
 
 ## Example usage
